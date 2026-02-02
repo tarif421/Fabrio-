@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => {
     availableQuantity,
   } = product;
   return <>
-    <div className="  p-2 bg-base-100 shadow-md rounded-xl mt-2">
+    <div className="   p-2 bg-base-100 shadow-md rounded-xl mt-2">
       {/* Image */}
       <figure className="relative h-56 overflow-hidden rounded-t-xl">
         <img

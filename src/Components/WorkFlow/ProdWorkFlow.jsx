@@ -3,13 +3,13 @@ import React from "react";
 const ProdWorkFlow = () => {
   return (
     <>
-      <div>
-        <h1 className="font-bold text-4xl  text-[#384bb4] mt-15">
+      <div >
+        <h1 className="font-bold text-4xl  text-[#384bb4] mt-15 ">
           Production Workflow
         </h1>
         <p className="text-xs mt-2"> Transparent process from order to delivery</p>
       </div>
-      <section className="mt-15 grid grid-cols-2 lg:grid-cols-4 gap-6  ">
+      <section className="mt-15 grid grid-cols-2 lg:grid-cols-4 gap-6 px-9 ">
         <div className=" flex flex-col bg-[#e0e5fe]  rounded-2xl p-3 ">
           <div className="w-17 h-17 lg:ml-24 md:ml-37   my-4 bg-[#a0aadf] flex justify-center items-center rounded-full p-2">
             <p className="text-3xl text-[#192586]">1</p>
@@ -22,7 +22,7 @@ const ProdWorkFlow = () => {
           </p>
         </div>
 
-        <div className=" flex flex-col bg-[#e0e5fe]  rounded-2xl p-3 ">
+        <div className=" flex flex-col bg-[#e0e5fe]  rounded-2xl p-3  ">
           <div className="w-17 h-17 lg:ml-24 md:ml-37 my-4 bg-[#a0aadf] flex justify-center items-center rounded-full p-2">
             <p className="text-3xl text-[#192586]">2</p>
           </div>
