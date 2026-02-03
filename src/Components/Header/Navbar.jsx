@@ -92,10 +92,14 @@ const Navbar = () => {
         </span>
         <p className=" font-serif text-3xl font-bold text-[#192586]">Fabrio</p>
       </div>
-      <div className="navbar-center hidden lg:flex">
+      <div className="navbar-center ml-60 hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
-      <div className="navbar-end">
+   
+      <div className="navbar-end ml-50">
+        <a className="btn bg-[#192586] text-[#ffffff]">Register</a>
+      </div>
+         <div className="navbar-end ">
         <a className="btn bg-[#192586] text-[#ffffff]">Login</a>
       </div>
     </div>
