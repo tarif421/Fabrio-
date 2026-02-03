@@ -2,7 +2,7 @@ import React from "react";
 
 const Banner = () => {
   return (
-    <section className="bg-green-600 w-full h-[350px] relative">
+    <section className="bg-green-600 w-full h-[350px] relative ">
       {/* Background Image */}
       <img
         className="absolute w-full h-full  "
@@ -11,7 +11,7 @@ const Banner = () => {
       />
 
       {/* bg gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#050b1f]/95 via-[#0b122f]/85 to-transparent"></div>
+      <div className="absolute inset-0  bg-gradient-to-r from-[#050b1f]/95 via-[#0b122f]/85 to-transparent"></div>
       <div className="absolute inset-0 bg-gradient-to-l from-[#050b1f]/45 via-[#0b122f]/5 to-transparent"></div>
       {/* banner text */}
       <div className="absolute  mt-13 p-10  ">

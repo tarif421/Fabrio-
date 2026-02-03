@@ -8,7 +8,7 @@ const Navbar = () => {
       <li>
         <NavLink
           className={({ isActive }) =>
-            isActive ? "text-[#27379b]" : "hover:text-[#27379b]"
+            isActive ? "text-[#192586]" : "hover:text-[#27379b]"
           }
           to="/"
         >
@@ -17,9 +17,9 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/upcoming"
+          to="/allProducts"
           className={({ isActive }) =>
-            isActive ? "text-[#27379b]" : "hover:text-[#27379b]"
+            isActive ? "text-[#192586]" : "hover:text-[#27379b]"
           }
         >
           All Products

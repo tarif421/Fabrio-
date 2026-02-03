@@ -4,7 +4,7 @@ const ProdWorkFlow = () => {
   return (
     <>
       <div >
-        <h1 className="font-bold text-4xl  text-[#384bb4] mt-15 ">
+        <h1 className="font-bold text-4xl  text-[#384bb4] mt-15 font-serif">
           Production Workflow
         </h1>
         <p className="text-xs mt-2"> Transparent process from order to delivery</p>
