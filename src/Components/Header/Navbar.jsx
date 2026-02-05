@@ -1,6 +1,6 @@
 import React from "react";
 import { GiRolledCloth } from "react-icons/gi";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 
 const Navbar = () => {
   const links = (
@@ -97,7 +97,7 @@ const Navbar = () => {
       </div>
    
       <div className="navbar-end ml-50">
-        <a className="btn bg-[#192586] text-[#ffffff]">Register</a>
+        <Link to="/auth/register"><a className="btn bg-[#192586] text-[#ffffff]">Register</a></Link>
       </div>
          <div className="navbar-end ">
         <a className="btn bg-[#192586] text-[#ffffff]">Login</a>
