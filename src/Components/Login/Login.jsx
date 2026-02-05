@@ -76,8 +76,8 @@ const Login = () => {
     <>
       <div className=" flex justify-center min-h-screen  items-center ">
         <div className=" bg-base-100 w-full max-w-sm shrink-0 shadow-2xl py-4">
-          <h2 className="font-semibold text-2xl text-center text-[#7988d2] mt-3 ">
-            Welcole To Fabrio
+          <h2 className="font-bold text-2xl text-center text-[#7988d2] mt-4 ">
+            Welcome To Fabrio
           </h2>
           <form onSubmit={handleLogin} className="card-body">
             <fieldset className="fieldset">
@@ -125,8 +125,8 @@ const Login = () => {
               <div className="relative">
                 <label className="label text-left block">Password</label>
                 <input
-                  type={showPassword ? "text" : "password"}
-                  className="input"
+                  type={showPassword ? "text " : "password"}
+                  className="input w-full "
                   placeholder="Password"
                   name="password"
                   autoComplete="new-password"
