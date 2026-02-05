@@ -100,7 +100,7 @@ const Navbar = () => {
         <Link to="/auth/register"><a className="btn bg-[#192586] text-[#ffffff]">Register</a></Link>
       </div>
          <div className="navbar-end ">
-        <a className="btn bg-[#192586] text-[#ffffff]">Login</a>
+      <Link to="/auth/login">  <a className="btn bg-[#192586] text-[#ffffff]">Login</a></Link>
       </div>
     </div>
   );

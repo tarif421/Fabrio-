@@ -68,7 +68,7 @@ const Register = () => {
   return (
     <>
       <div className=" flex justify-center min-h-screen  items-center ">
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl py-5">
+        <div className=" bg-base-100 w-full max-w-sm shrink-0 shadow-2xl py-5">
           <h2 className="font-semibold text-2xl text-center">
             Register your account
           </h2>
@@ -138,7 +138,7 @@ const Register = () => {
                 <div className="relative w-full">
                   <input
                     type={showPassword ? "text" : "password"}
-                    className="input w-full pr-10"
+                    className="input w-full pr-12"
                     placeholder="Password"
                     name="password"
                     autoComplete="new-password"
