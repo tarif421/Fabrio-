@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useLoaderData, useNavigate } from "react-router";
+import { Link, useLoaderData, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const ProductDetails = () => {
@@ -40,8 +40,9 @@ const ProductDetails = () => {
               price: ${product.price}
             </p>
             <p className="text-left text-xl"><span className="font-semibold">Category:</span> {product.category}</p>
-            <p className="text-left text-xl"><span className="font-semibold">Stock:</span> {product.availableQuantity}</p>
+          
             <p className="text-left text-xl"><span className="font-semibold">Description:</span> {product.description}</p>
+              <p className="text-left text-xl"><span className="font-semibold">Stock:</span> {product.availableQuantity}</p>
             <p className="text-left text-xl"><span className="font-semibold">Minimum Order:</span> {product.minimumOrder}</p>
 
             {/* Payment Options */}
@@ -70,6 +71,7 @@ const ProductDetails = () => {
           )}
 
           {/* Order / Booking Button */}
+  <Link to="/booking">
           <button
             onClick={handleBooking}
             disabled={!user || user.role === "admin" || user.role === "manager"}
@@ -82,7 +84,7 @@ const ProductDetails = () => {
             {!user || user.role === "admin" || user.role === "manager"
               ? "Cannot Book"
               : "Book / Order Now"}
-          </button>
+          </button></Link>
         </div>
       </div>
     </div>

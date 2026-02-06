@@ -1,11 +1,15 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "../Layouts/RootLayout";
 import Home from "../Pages/Home";
-import AllProducts from "../Pages/AllProducts";
+import AllProducts from "../Pages/Allproducts";
 import AuthLayout from "../Layouts/AuthLayout";
 import Register from "../Components/Register/Register";
 import Login from "../Components/Login/Login";
 import ProductDetails from "../Pages/ProductDetails";
+import Booking from "../Pages/Booking";
+import Layout from "../Layouts/DashboardLayout/Layout";
+import ManageUsers from "../Layouts/DashboardLayout/Manageusers";
+import Allproducts from "../Pages/Allproducts";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +30,12 @@ export const router = createBrowserRouter([
           fetch(`http://localhost:3000/productsDetails/${params.id}`),
         element: <ProductDetails />,
       },
+      {
+        path: "/booking",
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/productsDetails/${params.id}`),
+        element: <Booking></Booking>,
+      },
     ],
   },
   {
@@ -43,6 +53,20 @@ export const router = createBrowserRouter([
       {
         path: "/auth/login",
         element: <Login></Login>,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <Layout />,
+    children: [
+      {
+        path: "manage-users",
+        element: <ManageUsers />,
+      },
+      {
+        path: "all-product",
+        element: <Allproducts />,
       },
     ],
   },
