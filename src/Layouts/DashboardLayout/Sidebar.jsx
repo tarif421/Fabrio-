@@ -10,9 +10,7 @@ const Sidebar = () => {
 
       {/* Menu */}
       <nav className="flex-1 px-4 py-6 space-y-2">
-        <NavLink className="block px-4 py-2 rounded hover:bg-gray-700">
-          Dashboard
-        </NavLink>
+    
 
         <NavLink
           to="manage-users"
@@ -38,11 +36,23 @@ const Sidebar = () => {
             isActive ? "text-[#192586] font-semibold" : "hover:text-[#27379b]"
           } */}
 
-        <NavLink className="block px-4 py-2 rounded hover:bg-gray-700">
+      <NavLink
+          to="all-orders"
+          className={({ isActive }) =>
+            `block px-4 py-2 rounded transition
+     ${isActive ? "bg-gray-700 text-white" : "hover:bg-gray-700"}`
+          }
+        >
           All Orders
         </NavLink>
 
-        <NavLink className="block px-4 py-2 rounded hover:bg-gray-700">
+        <NavLink
+          to="settings"
+          className={({ isActive }) =>
+            `block px-4 py-2 rounded transition
+     ${isActive ? "bg-gray-700 text-white" : "hover:bg-gray-700"}`
+          }
+        >
           Settings
         </NavLink>
       </nav>

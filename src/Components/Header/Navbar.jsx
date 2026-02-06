@@ -42,7 +42,7 @@ const Navbar = () => {
             isActive ? "text-[#27379b] font-semibold" : "hover:text-[#27379b]"
           }
         >
-         About US
+          About US
         </NavLink>
       </li>
       <li>
@@ -52,7 +52,7 @@ const Navbar = () => {
             isActive ? "text-[#27379b] font-semibold" : "hover:text-[#27379b]"
           }
         >
-         Contact
+          Contact
         </NavLink>
       </li>
     </>
@@ -95,12 +95,17 @@ const Navbar = () => {
       <div className="navbar-center ml-60 hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
-   
+
       <div className="navbar-end ml-50">
-        <Link to="/auth/register"><a className="btn bg-[#192586] text-[#ffffff]">Register</a></Link>
+        <Link to="/auth/register">
+          <a className="btn bg-[#192586] text-[#ffffff]">Register</a>
+        </Link>
       </div>
-         <div className="navbar-end ">
-      <Link to="/auth/login">  <a className="btn bg-[#192586] text-[#ffffff]">Login</a></Link>
+      <div className="navbar-end ">
+        <Link to="/auth/login">
+          {" "}
+          <a className="btn bg-[#192586] text-[#ffffff]">Login</a>
+        </Link>
       </div>
     </div>
   );

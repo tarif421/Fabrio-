@@ -10,6 +10,9 @@ import Booking from "../Pages/Booking";
 import Layout from "../Layouts/DashboardLayout/Layout";
 import ManageUsers from "../Layouts/DashboardLayout/Manageusers";
 import Allproducts from "../Pages/Allproducts";
+import AllOrders from "../Layouts/DashboardLayout/AllOrders";
+
+import Setting from "../Layouts/DashboardLayout/Setting";
 
 export const router = createBrowserRouter([
   {
@@ -60,14 +63,26 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: <Layout />,
     children: [
+      // {
+      //   index: true,
+      //   element: <ManageUsers />,
+      // },
       {
-        path: "manage-users",
+        path: "/manage-users",
         element: <ManageUsers />,
       },
       {
         path: "all-product",
         element: <Allproducts />,
       },
+      {
+        path: "all-orders",
+        element: <AllOrders/>
+      },
+      {
+        path: "settings",
+        element: <Setting/>
+      }
     ],
   },
 ]);

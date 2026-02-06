@@ -8,7 +8,7 @@ const DashboardLayout = () => {
  <div>
 <Navbar/>
  </div>
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex mt-20 min-h-screen bg-gray-100">
         
       {/* Sidebar */}
       <Sidebar />
