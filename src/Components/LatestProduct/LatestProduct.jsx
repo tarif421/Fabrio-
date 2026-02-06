@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
+import { Link } from "react-router";
 
 const LatestProduct = () => {
   const [products, setProducts] = useState([]);
@@ -28,7 +29,9 @@ const LatestProduct = () => {
         ))}
       </div>
       <div>
+        <Link to="/allProducts">
         <button className="font-semibold text-xl text-[#384bb4] btn">View All Products →</button>
+        </Link>
       </div>
     </>
   );

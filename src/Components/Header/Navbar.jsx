@@ -8,7 +8,7 @@ const Navbar = () => {
       <li>
         <NavLink
           className={({ isActive }) =>
-            isActive ? "text-[#192586]" : "hover:text-[#27379b]"
+            isActive ? "text-[#192586] font-semibold" : "hover:text-[#27379b]"
           }
           to="/"
         >
@@ -19,7 +19,7 @@ const Navbar = () => {
         <NavLink
           to="/allProducts"
           className={({ isActive }) =>
-            isActive ? "text-[#192586]" : "hover:text-[#27379b]"
+            isActive ? "text-[#192586] font-semibold" : "hover:text-[#27379b]"
           }
         >
           All Products
@@ -29,7 +29,7 @@ const Navbar = () => {
         <NavLink
           to="/upcoming"
           className={({ isActive }) =>
-            isActive ? "text-[#27379b]" : "hover:text-[#27379b]"
+            isActive ? "text-[#27379b] font-semibold" : "hover:text-[#27379b]"
           }
         >
           Dashboard
@@ -39,7 +39,7 @@ const Navbar = () => {
         <NavLink
           to="/my-event"
           className={({ isActive }) =>
-            isActive ? "text-[#27379b]" : "hover:text-[#27379b]"
+            isActive ? "text-[#27379b] font-semibold" : "hover:text-[#27379b]"
           }
         >
          About US
@@ -49,7 +49,7 @@ const Navbar = () => {
         <NavLink
           to="/my-event"
           className={({ isActive }) =>
-            isActive ? "text-[#27379b]" : "hover:text-[#27379b]"
+            isActive ? "text-[#27379b] font-semibold" : "hover:text-[#27379b]"
           }
         >
          Contact

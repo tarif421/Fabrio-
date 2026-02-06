@@ -13,7 +13,7 @@ const AllProducts = () => {
    return (
     <>
       <div>
-        <h1 className="font-bold text-4xl  text-[#384bb4] mt-15 font-serif" >Latest Products</h1>
+        <h1 className="font-bold text-4xl  text-[#384bb4] mt-15 font-serif" >All Products</h1>
         <p  className="text-xs mt-2">
           Discover our high-quality garments ready for bulk production. <br />
           Customizable to your brand's needs.
@@ -24,9 +24,7 @@ const AllProducts = () => {
           <AllProdCard key={product._id} product={product} />
         ))}
       </div>
-      <div>
-        <button className="font-semibold text-xl text-[#384bb4] btn">View All Products →</button>
-      </div>
+    
     </>
   );
 };
