@@ -1,4 +1,4 @@
-const Allproducts = () => {
+const AllProducts = () => {
   return (
     <div className="bg-white rounded-lg shadow p-6">
       {/* Page Header */}
@@ -123,4 +123,4 @@ const Allproducts = () => {
   );
 };
 
-export default Allproducts;
+export default AllProducts;

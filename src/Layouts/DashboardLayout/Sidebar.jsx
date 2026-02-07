@@ -13,7 +13,7 @@ const Sidebar = () => {
     
 
         <NavLink
-          to="manage-users"
+          to="/Dashboard/manage-users"
           className={({ isActive }) =>
             `block px-4 py-2 rounded transition
      ${isActive ? "bg-gray-700 text-white" : "hover:bg-gray-700"}`

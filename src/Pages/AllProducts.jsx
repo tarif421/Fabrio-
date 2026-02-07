@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AllProdCard from "./AllProdCard";
 
-const AllProducts = () => {
+const Allproducts = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     fetch("http://localhost:3000/allProducts")
@@ -30,4 +30,4 @@ const AllProducts = () => {
   );
 };
 
-export default AllProducts;
+export default Allproducts;

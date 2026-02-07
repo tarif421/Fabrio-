@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "../Layouts/RootLayout";
 import Home from "../Pages/Home";
-import AllProducts from "../Pages/Allproducts";
+
 import AuthLayout from "../Layouts/AuthLayout";
 import Register from "../Components/Register/Register";
 import Login from "../Components/Login/Login";
@@ -9,6 +9,7 @@ import ProductDetails from "../Pages/ProductDetails";
 import Booking from "../Pages/Booking";
 import Layout from "../Layouts/DashboardLayout/Layout";
 import ManageUsers from "../Layouts/DashboardLayout/Manageusers";
+import AllProducts from "../Layouts/DashboardLayout/AllProduct";
 import Allproducts from "../Pages/Allproducts";
 import AllOrders from "../Layouts/DashboardLayout/AllOrders";
 
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/allProducts",
-        element: <AllProducts />,
+        element: <Allproducts />,
       },
       {
         path: "/Details/:id",
@@ -68,21 +69,21 @@ export const router = createBrowserRouter([
       //   element: <ManageUsers />,
       // },
       {
-        path: "/manage-users",
+        path: "manage-users",
         element: <ManageUsers />,
       },
       {
         path: "all-product",
-        element: <Allproducts />,
+        element: <AllProducts />,
       },
       {
         path: "all-orders",
-        element: <AllOrders/>
+        element: <AllOrders />,
       },
       {
         path: "settings",
-        element: <Setting/>
-      }
+        element: <Setting />,
+      },
     ],
   },
 ]);

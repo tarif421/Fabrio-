@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link, useLoaderData, useNavigate } from "react-router";
+import React, { useContext, useState } from "react";
+import { useLoaderData, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const ProductDetails = () => {
@@ -7,86 +7,199 @@ const ProductDetails = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleBooking = () => {
-    if (!user || user.role === "admin" || user.role === "manager") {
-      alert("You cannot book this product.");
+  // New states
+  const [selectedPayment, setSelectedPayment] = useState(
+    product.paymentOptions[0] || "Cash on Delivery"
+  );
+  const [quantity, setQuantity] = useState(product.minimumOrder || 1);
+
+  const handleBooking = async () => {
+    if (!user || user.role !== "buyer") {
+      alert("Only buyers can place orders.");
       return;
     }
-    navigate(`/booking/${product._id}`);
+
+    // Validate quantity
+    if (quantity < product.minimumOrder) {
+      alert(`Minimum order quantity is ${product.minimumOrder}`);
+      return;
+    }
+
+    const bookingData = {
+      productId: product._id,
+      buyerEmail: user.email,
+      productName: product.productName,
+      price: product.price * quantity,
+      quantity,
+      paymentMethod: selectedPayment,
+      status:
+        selectedPayment === "Cash on Delivery" ? "Pending" : "Payment Pending",
+    };
+
+    if (selectedPayment === "Cash on Delivery") {
+      // POST booking to backend
+      try {
+        const res = await fetch("/api/bookings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(bookingData),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert("Booking Successful! Check your Dashboard → My Orders.");
+          navigate("/dashboard/my-orders");
+        } else {
+          alert(data.message || "Booking failed.");
+        }
+      } catch (err) {
+        alert("Server error. Please try again later.");
+      }
+    } else {
+      // Redirect to payment page
+      navigate(
+        `/payment/${product._id}?method=${selectedPayment}&quantity=${quantity}`
+      );
+    }
   };
 
-  if (!product) return <p>Product not found</p>;
+  if (!product) return null;
 
   return (
-    <div className="max-w-5xl mx-auto p-5">
-      <h1 className="font-bold text-4xl  text-[#384bb4] mt-15 font-serif mb-20" >Product Details</h1>
-      <div className="flex flex-col md:flex-row gap-8">
-        
-        {/* Product Image */}
-        <div className="flex-1">
-          <img
-            src={product.productImage}
-            alt={product.productName}
-            className="w-full h-80 object-cover rounded"
-          />
+    <div className="min-h-screen bg-[#0b0f1a] text-white my-10">
+      {/* HERO */}
+      <section className="relative h-[60vh] md:h-[70vh] lg:h-[75vh] flex items-center justify-center overflow-hidden">
+        <img
+          src={product.productImage}
+          alt={product.productName}
+          className="absolute inset-0 w-full h-full object-cover opacity-30 scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+        <div className="relative z-10 text-center px-4 sm:px-6">
+          <span className="px-4 py-1 rounded-full bg-indigo-600 text-xs sm:text-sm tracking-wide">
+            Premium Collection
+          </span>
+          <h1 className="mt-2 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold font-serif leading-tight">
+            {product.productName}
+          </h1>
+          <div className="mt-2 text-3xl sm:text-4xl font-bold text-indigo-400">
+            $ {product.price}
+          </div>
+          <p className="mt-2 max-w-2xl mx-auto text-gray-300 mb-12 text-sm sm:text-base md:text-lg">
+            Designed for comfort, durability, and modern lifestyle
+          </p>
         </div>
-            
-        {/* Product Info */}
-        <div className="flex-1">
-          <h1 className="text-3xl my-4 font-bold">{product.productName}</h1>
-          {/* price stock */}
-         
-            <p className="text-[#5c6dc9] font-bold text-lg text-left ">
-              price: ${product.price}
-            </p>
-            <p className="text-left text-xl"><span className="font-semibold">Category:</span> {product.category}</p>
-          
-            <p className="text-left text-xl"><span className="font-semibold">Description:</span> {product.description}</p>
-              <p className="text-left text-xl"><span className="font-semibold">Stock:</span> {product.availableQuantity}</p>
-            <p className="text-left text-xl"><span className="font-semibold">Minimum Order:</span> {product.minimumOrder}</p>
+      </section>
 
-            {/* Payment Options */}
-          {product.paymentOptions?.length > 0 && (
-            <div className="mt-3">
-              <strong className="text-lg flex ">Payment Options:</strong>
-              <ul className="list-disc list-inside flex flex-col justify-end">
-                {product.paymentOptions.map((option, i) => (
-                  <button className="btn w-[] " key={i}>{option}</button>
+      {/* CONTENT */}
+      <section className="relative -mt-24 md:-mt-32 max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+        <div className="bg-white/10 backdrop-blur-xl rounded-2xl md:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+          {/* IMAGE */}
+          <div className="relative group rounded-xl md:rounded-2xl overflow-hidden">
+            <img
+              src={product.productImage}
+              alt={product.productName}
+              className="w-full h-[280px] sm:h-[350px] md:h-[420px] lg:h-[450px] object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+          </div>
+
+          {/* INFO */}
+          <div className="flex flex-col justify-between">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">
+                Product Overview
+              </h2>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed mb-6">
+                {product.description}
+              </p>
+
+              {/* STATS */}
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
+                <div className="p-3 sm:p-4 rounded-xl bg-gradient-to-br from-indigo-600 to-blue-600 text-center">
+                  <p className="text-xs sm:text-sm opacity-80">Category</p>
+                  <p className="font-semibold text-sm sm:text-base">
+                    {product.category}
+                  </p>
+                </div>
+                <div className="p-3 sm:p-4 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 text-center">
+                  <p className="text-xs sm:text-sm opacity-80">Stock</p>
+                  <p className="font-semibold text-sm sm:text-base">
+                    {product.availableQuantity}
+                  </p>
+                </div>
+              </div>
+
+              {/* BADGES */}
+              <div className="flex flex-wrap gap-2 sm:gap-3 mb-6">
+                <span className="px-3 py-1 rounded-full bg-white/10 text-xs sm:text-sm">
+                  Min Order: {product.minimumOrder}
+                </span>
+                {product.features?.map((f, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1 rounded-full bg-white/10 text-xs sm:text-sm"
+                  >
+                    {f}
+                  </span>
                 ))}
-              </ul>
-            </div>
-          )}
-    
-          
+              </div>
 
-          {product.features && product.features.length > 0 && (
-            <div className="mt-4">
-              <strong>Features:</strong>
-              <ul className="list-disc list-inside">
-                {product.features.map((f, i) => (
-                  <li key={i}>{f}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+              {/* PAYMENT METHOD */}
+              <div className="mb-6">
+                <label className="block mb-2 text-sm font-semibold">
+                  Select Payment Method:
+                </label> 
+                <select
+                  value={selectedPayment}
+                  onChange={(e) => setSelectedPayment(e.target.value)}
+                  className="w-full p-2 rounded-lg bg-white text-black"
+                >
+                  {product.paymentOptions.map((option, i) => (
+                    <option key={i} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-          {/* Order / Booking Button */}
-  <Link to="/booking">
-          <button
-            onClick={handleBooking}
-            disabled={!user || user.role === "admin" || user.role === "manager"}
-            className={`mt-6 btn ${
-              !user || user.role === "admin" || user.role === "manager"
-                ? "btn-disabled"
-                : "btn-primary"
-            }`}
-          >
-            {!user || user.role === "admin" || user.role === "manager"
-              ? "Cannot Book"
-              : "Book / Order Now"}
-          </button></Link>
+              {/* QUANTITY */}
+<div className="mb-6">
+  <label className="block mb-2 text-sm font-semibold text-white">
+    Quantity:
+  </label>
+  <input
+    type="number"
+    min={product.minimumOrder}
+    max={product.availableQuantity}
+    value={quantity}
+    onChange={(e) => setQuantity(Number(e.target.value))}
+    className="w-full p-2 rounded-lg bg-gray-800 text-white border-2 border-indigo-500 focus:border-pink-500 focus:ring-2 focus:ring-pink-500 transition-all duration-300
+               appearance-number spinners-visible"
+  />
+</div>
+
+
+            </div>
+
+            {/* CTA BUTTON */}
+            <button
+              onClick={handleBooking}
+              disabled={!user || user.role !== "buyer"}
+              className={`mt-8 md:mt-10 w-full py-4 md:py-5 rounded-xl text-base md:text-lg font-bold transition-all duration-500
+                ${
+                  !user || user.role !== "buyer"
+                    ? "bg-gray-700 cursor-not-allowed"
+                    : "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(99,102,241,0.6)]"
+                }`}
+            >
+              {!user
+                ? "Login to Continue"
+                : user.role !== "buyer"
+                ? "Only Buyers Can Order"
+                : "Book / Order Now"}
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
