@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { GiRolledCloth } from "react-icons/gi";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      navigate("/auth/login");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
+
   const links = (
     <>
       <li>
@@ -60,6 +73,7 @@ const Navbar = () => {
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
+      {/* START */}
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -70,13 +84,12 @@ const Navbar = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              {" "}
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
                 d="M4 6h16M4 12h8m-8 6h16"
-              />{" "}
+              />
             </svg>
           </div>
           <ul
@@ -90,22 +103,33 @@ const Navbar = () => {
         <span className="text-4xl text-[#192586]">
           <GiRolledCloth />
         </span>
-        <p className=" font-serif text-3xl font-bold text-[#192586]">Fabrio</p>
+        <p className="font-serif text-3xl font-bold text-[#192586]">Fabrio</p>
       </div>
+
+      {/* CENTER */}
       <div className="navbar-center ml-60 hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
 
-      <div className="navbar-end ml-50">
-        <Link to="/auth/register">
-          <a className="btn bg-[#192586] text-[#ffffff]">Register</a>
-        </Link>
-      </div>
-      <div className="navbar-end ">
-        <Link to="/auth/login">
-          {" "}
-          <a className="btn bg-[#192586] text-[#ffffff]">Login</a>
-        </Link>
+      {/* END */}
+      <div className="navbar-end ml-2 flex gap-2">
+        {!user ? (
+          <>
+            <Link to="/auth/register">
+              <button className="btn bg-[#192586] text-white">Register</button>
+            </Link>
+            <Link to="/auth/login">
+              <button className="btn bg-[#192586] text-white">Login</button>
+            </Link>
+          </>
+        ) : (
+          <button
+            onClick={handleLogout}
+            className="btn bg-[#192586] text-white"
+          >
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );

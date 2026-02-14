@@ -1,28 +1,41 @@
 import React, { useContext, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const product = useLoaderData();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
- 
 
-  // New states
+  // States for quantity and payment
   const [selectedPayment, setSelectedPayment] = useState(
-    product.paymentOptions[0] || "Cash on Delivery"
+    product.paymentOptions?.[0] || "Cash on Delivery"
   );
   const [quantity, setQuantity] = useState(product.minimumOrder || 1);
 
   const handleBooking = async () => {
-    if (!user || user.role !== "buyer") {
-      alert("Only buyers can place orders.");
+    // 🔹 Check if user is logged in
+    if (!user) {
+      toast.error("Please login to place an order.");
+      navigate("/auth/login");
       return;
     }
 
-    // Validate quantity
+    // 🔹 Check role
+    if (user.role !== "buyer") {
+      toast.error("Only buyers can place orders.");
+      return;
+    }
+
+    // 🔹 Quantity validation
     if (quantity < product.minimumOrder) {
-      alert(`Minimum order quantity is ${product.minimumOrder}`);
+      toast.error(`Minimum order quantity is ${product.minimumOrder}`);
+      return;
+    }
+
+    if (quantity > product.availableQuantity) {
+      toast.error(`Maximum available quantity is ${product.availableQuantity}`);
       return;
     }
 
@@ -37,29 +50,30 @@ const ProductDetails = () => {
         selectedPayment === "Cash on Delivery" ? "Pending" : "Payment Pending",
     };
 
-    if (selectedPayment === "Cash on Delivery") {
-      // POST booking to backend
-      try {
-        const res = await fetch("/api/bookings", {
+    try {
+      if (selectedPayment === "Cash on Delivery") {
+        // POST booking to backend
+        const res = await fetch("http://localhost:3000/api/bookings", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(bookingData),
         });
         const data = await res.json();
         if (res.ok) {
-          alert("Booking Successful! Check your Dashboard → My Orders.");
+          toast.success("Booking Successful! Check your Dashboard → My Orders.");
           navigate("/dashboard/my-orders");
         } else {
-          alert(data.message || "Booking failed.");
+          toast.error(data.message || "Booking failed.");
         }
-      } catch (err) {
-        alert("Server error. Please try again later.");
+      } else {
+        // Redirect to payment page
+        navigate(
+          `/payment/${product._id}?method=${selectedPayment}&quantity=${quantity}`
+        );
       }
-    } else {
-      // Redirect to payment page
-      navigate(
-        `/payment/${product._id}?method=${selectedPayment}&quantity=${quantity}`
-      );
+    } catch (err) {
+      console.error(err);
+      toast.error("Server error. Please try again later.");
     }
   };
 
@@ -148,13 +162,13 @@ const ProductDetails = () => {
               <div className="mb-6">
                 <label className="block mb-2 text-sm font-semibold">
                   Select Payment Method:
-                </label> 
+                </label>
                 <select
                   value={selectedPayment}
                   onChange={(e) => setSelectedPayment(e.target.value)}
                   className="w-full p-2 rounded-lg bg-white text-black"
                 >
-                  {product.paymentOptions.map((option, i) => (
+                  {product.paymentOptions?.map((option, i) => (
                     <option key={i} value={option}>
                       {option}
                     </option>
@@ -163,40 +177,30 @@ const ProductDetails = () => {
               </div>
 
               {/* QUANTITY */}
-<div className="mb-6">
-  <label className="block mb-2 text-sm font-semibold text-white">
-    Quantity:
-  </label>
-  <input
-    type="number"
-    min={product.minimumOrder}
-    max={product.availableQuantity}
-    value={quantity}
-    onChange={(e) => setQuantity(Number(e.target.value))}
-    className="w-full p-2 rounded-lg bg-gray-800 text-white border-2 border-indigo-500 focus:border-pink-500 focus:ring-2 focus:ring-pink-500 transition-all duration-300
-               appearance-number spinners-visible"
-  />
-</div>
-
-
+              <div className="mb-6">
+                <label className="block mb-2 text-sm font-semibold text-white">
+                  Quantity:
+                </label>
+                <input
+                  type="number"
+                  min={product.minimumOrder}
+                  max={product.availableQuantity}
+                  value={quantity}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  className="w-full p-2 rounded-lg bg-gray-800 text-white border-2 border-indigo-500 focus:border-pink-500 focus:ring-2 focus:ring-pink-500 transition-all duration-300"
+                />
+              </div>
             </div>
 
             {/* CTA BUTTON */}
             <button
               onClick={handleBooking}
-              disabled={!user || user.role !== "buyer"}
-              className={`mt-8 md:mt-10 w-full py-4 md:py-5 rounded-xl text-base md:text-lg font-bold transition-all duration-500
-                ${
-                  !user || user.role !== "buyer"
-                    ? "bg-gray-700 cursor-not-allowed"
-                    : "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(99,102,241,0.6)]"
-                }`}
+              className="mt-8 md:mt-10 w-full py-4 md:py-5 rounded-xl text-base md:text-lg font-bold transition-all duration-500
+                bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(99,102,241,0.6)]"
             >
-              {!user
-                ? "Login to Continue"
-                : user.role !== "buyer"
-                ? "Only Buyers Can Order"
-                : "Book / Order Now"}
+              {user
+                ? "Book / Order Now"
+                : "Login to Continue"}
             </button>
           </div>
         </div>
