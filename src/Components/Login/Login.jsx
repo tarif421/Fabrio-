@@ -15,7 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [showPassword, setShowPass] = useState(false);
-  const [role, setRole] = useState("buyer");
+
 
   console.log(location);
   const handleLogin = (e) => {
@@ -24,8 +24,7 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    const role = form.role.value;
-    console.log({ email, password, role});
+ 
 
     logIn(email, password)
       .then((result) => {
@@ -81,35 +80,6 @@ const Login = () => {
           </h2>
           <form onSubmit={handleLogin} className="card-body">
             <fieldset className="fieldset">
-              {/* role */}
-              <label className="label">Role</label>
-
-              <div className="dropdown dropdown-bottom w-full">
-                <div
-                  tabIndex={0}
-                  className="input flex items-center justify-between cursor-pointer"
-                >
-                  <span className="capitalize text-gray-500">
-                    {role || "Select role"}
-                  </span>
-                  <MdArrowDropDown className="text-2xl text-gray-500" />
-                </div>
-
-                <ul
-                  tabIndex={0}
-                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full mt-1"
-                >
-                  <li onClick={() => setRole("buyer")}>
-                    <a>Buyer</a>
-                  </li>
-                  <li onClick={() => setRole("manager")}>
-                    <a>Manager</a>
-                  </li>
-                </ul>
-              </div>
-
-              <input type="hidden" name="role" value={role} />
-
               {/* email */}
               <label className="label">Email</label>
               <input

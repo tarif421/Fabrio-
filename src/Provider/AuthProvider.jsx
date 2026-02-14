@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // register
-  const createUser = async (email, password, name, photo) => {
+  const createUser = async (email, password, name, photo, role) => {
     setLoading(true);
 
     const result = await createUserWithEmailAndPassword(auth, email, password);
@@ -30,7 +30,8 @@ const AuthProvider = ({ children }) => {
       photoURL: photo || "https://via.placeholder.com/150",
     });
 
-    setUser({ ...result.user, displayName: name, photoURL: photo });
+    
+    setUser({ ...result.user, displayName: name, photoURL: photo, role });
 
     return result;
   };
@@ -77,7 +78,7 @@ const AuthProvider = ({ children }) => {
     setLoading,
     auth,
   };
-  return <AuthContext value={authData}>{children}</AuthContext>;
+  return <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

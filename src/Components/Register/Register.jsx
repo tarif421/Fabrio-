@@ -10,10 +10,9 @@ const Register = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [showPassword, setShowPass] = useState(false);
- const [role, setRole] = useState("buyer");
+  const [role, setRole] = useState("buyer");
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
@@ -21,50 +20,50 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
     const role = form.role.value;
-    console.log(role)
 
     // console.log(name, photo, email, password);
 
-    if (password.length < 6) {
+    if (
+      password.length < 6 ||
+      !/[A-Z]/.test(password) ||
+      !/[a-z]/.test(password)
+    ) {
       setError(
-        "password must be at least 6 characters , one uppercase and one lowercase",
+        "Password must be at least 6 characters with one uppercase and one lowercase",
       );
       toast.error("Registration Failed");
-
       return;
     }
 
-    if (!/[A-Z]/.test(password)) {
-      setError(
-        "password must be at least 6 characters , one uppercase and one lowercase",
-      );
-      toast.error("Registration Failed");
+    try {
+      const result = await createUser(email, password);
+      const user = result.user;
 
-      return;
-    }
-
-    if (!/[a-z]/.test(password)) {
-      setError(
-        "password must be at least 6 characters , one uppercase and one lowercase",
-      );
-      toast.error("Registration Failed");
-
-      return;
-    } else {
-      toast.success("Registration Successful");
-    }
-
-    createUser(email, password, name, photo)
-      .then((result) => {
-        const user = result.user;
-
-        setUser(user);
-        navigate("/");
-      })
-      .catch(() => {
-        setError();
+      // 🔥 Send user to MongoDB
+      await fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          photo,
+          role,
+          status: role === "manager" ? "pending" : "active",
+          createdAt: new Date(),
+        }),
       });
+
+      toast.success("Registration Successful");
+      setUser(user);
+      navigate("/");
+    } catch (error) {
+      setError(error.message);
+      toast.error("Registration Failed");
+    }
   };
+
   return (
     <>
       <div className=" flex justify-center min-h-screen  items-center ">
@@ -129,7 +128,6 @@ const Register = () => {
                 </ul>
               </div>
               <input type="hidden" name="role" value={role} />
-
 
               {/* password */}
               <div className="w-full">

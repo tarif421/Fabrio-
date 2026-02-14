@@ -6,6 +6,7 @@ const ProductDetails = () => {
   const product = useLoaderData();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+ 
 
   // New states
   const [selectedPayment, setSelectedPayment] = useState(
