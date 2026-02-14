@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { GiRolledCloth } from "react-icons/gi";
 import { Link, NavLink, useNavigate } from "react-router";
-import { AuthContext } from "../../Provider/AuthProvider";
+import { AuthContext } from "../../Provider/AuthProvider"
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
