@@ -5,16 +5,16 @@ import { AuthContext } from "../../Provider/AuthProvider"
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    try {
-      await logOut();
-      navigate("/auth/login");
-    } catch (err) {
-      console.error("Logout failed:", err);
-    }
-  };
+ const handleLogOut = () => {
+  logOut().then(() =>{
+    console.log("logged out successfully")
+  })
+  .catch(error => {
+    console.log(error)
+  })
+ }
 
   const links = (
     <>
@@ -113,23 +113,19 @@ const Navbar = () => {
 
       {/* END */}
       <div className="navbar-end ml-2 flex gap-2">
-        {!user ? (
-          <>
-            <Link to="/auth/register">
-              <button className="btn bg-[#192586] text-white">Register</button>
-            </Link>
-            <Link to="/auth/login">
-              <button className="btn bg-[#192586] text-white">Login</button>
-            </Link>
-          </>
-        ) : (
-          <button
-            onClick={handleLogout}
-            className="btn bg-[#192586] text-white"
-          >
-            Logout
-          </button>
-        )}
+{
+  user? (<>
+  <button
+  onClick={handleLogOut}
+  className="btn bg-red-500 hover:bg-red-600 text-white border-none"
+  >Log Out</button></>) : (<>
+  <Link to="/login"
+  className="btn btn-ghost text-[#192586] font-semibold border-[#192586] hover:bg-[#19258610]">Log In</Link>
+  <Link className="btn bg-[#192586] hover:bg-[#27379b] text-white border-none"
+          >Register</Link>
+  </>)
+  
+}
       </div>
     </div>
   );
